@@ -31,13 +31,19 @@
             '';
           };
         };
+
+        systemd = lib.mkOption {
+          type = lib.types.attrs;
+          default = { };
+          description = "Additional attributes merged into the generated systemd service.";
+        };
       };
     }));
 
     default = { };
 
     example = {
-      vpn = {
+      my-vpn = {
         resolv.dns = [
           "1.1.1.1"
           "8.8.8.8"
@@ -46,6 +52,8 @@
         resolv.extraOptions = ''
           options edns0
         '';
+
+        systemd.before = [ "needs-my-vpn.service" ];
       };
     };
 
