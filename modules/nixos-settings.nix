@@ -1,0 +1,3 @@
+{
+  programs.wireguard.enable = true;
+}
