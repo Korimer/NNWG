@@ -1,5 +1,6 @@
 {
   imports = [
     ../netns
+    ./option.nix
   ];
 }

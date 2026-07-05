@@ -1,6 +1,6 @@
 {
   imports = [
-    ./namespace-option.nix
+    ./option.nix
     ./resolv.nix
     ./service.nix
   ];

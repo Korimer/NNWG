@@ -1,7 +1,7 @@
 { lib, ... }:
 
 {
-  options.networking.netns = lib.mkOption {
+  options.netns = lib.mkOption {
     type = lib.types.attrsOf (lib.types.submodule ({ ... }: {
       options = {
         enable = lib.mkOption {
