@@ -1,6 +1,7 @@
 {
   imports = [
-    ./nixos-settings.nix
+    ./wireguard
+    ./option.nix
     ./netns
   ];
 }
