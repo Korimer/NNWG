@@ -3,7 +3,7 @@ let
   enabledNameservers = 
     (lib.attrsets.filterAttrs
       (_: cfg: cfg.enable)
-      config.networking.netns
+      config.netns
     );
 
   MkServiceDefault = name: {

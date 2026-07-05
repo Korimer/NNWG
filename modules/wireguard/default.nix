@@ -1,6 +1,6 @@
 {
   imports = [
-    ../netns
-    ./option.nix
+    ./forwarding.nix
+    ./service.nix
   ];
 }
