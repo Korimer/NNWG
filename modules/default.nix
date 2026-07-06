@@ -1,7 +1,7 @@
 {
   imports = [
     ./wireguard
-    ./option.nix
+    ./options.nix
     ./netns
   ];
 }
