@@ -74,7 +74,7 @@ in
 
           systemd = mkOption {
             type = types.submodule ({ ... }: {
-              freeformType = attrs;
+              freeformType = types.attrs;
             });
             default = {};
             example = {
