@@ -48,7 +48,7 @@ in
         options = {
 
           enable = mkOption {
-            type = bool;
+            type = types.bool;
             default = true;
             description = "Whether or not to automatically create this namespace.";
           };
