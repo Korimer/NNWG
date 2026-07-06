@@ -17,7 +17,7 @@ in
           default = false;
           example = true;
           description = ''
-            Automatically create network namespaces declared in `networking.wireguard.interfaces.<name>.socketNamespace`.
+            Automatically create network namespaces referenced in `networking.wireguard.interfaces.<name>.socketNamespace`.
             May be either:
 
             - `true` to create namespaces for all WireGuard sockets.
@@ -31,7 +31,7 @@ in
           default = false;
           example = [ "wg0" "wg1" ];
           description = ''
-            Automatically create network namespaces declared in `networking.wireguard.interfaces.<name>.interfaceNamespace`.
+            Automatically create network namespaces referenced in `networking.wireguard.interfaces.<name>.interfaceNamespace`.
             May be either:
 
             - `true` to create namespaces for all WireGuard interfaces.

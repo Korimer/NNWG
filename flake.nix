@@ -9,7 +9,6 @@
 
     nixosModules = {
       default = { imports = [ ./modules ]; };
-      netns = { imports = [ ./modules/netns ]; };
     };
   };
 }

@@ -1,31 +1,32 @@
 { lib, config, ... }:
 let
-  enabledNameservers = 
-    (lib.attrsets.filterAttrs
-      (_: cfg: cfg.enable)
-      config.netns
-    );
+  enabledNameservers = lib.filterAttrs
+    (_: cfg: cfg.enable)
+    config.netNamespaces.toCreate
+  ;
 
-  GenerateNameservers = cfg: builtins.concatStringsSep "\n" (
+  generateNameserverText = cfg: builtins.concatStringsSep "\n" (
     map
       (server: "nameserver ${server}")
       cfg.dns
   );
-  GenerateAllText = cfg: builtins.concatStringsSep "\n" (
+
+  generateResolv = cfg: builtins.concatStringsSep "\n" (
     map
-      (Generator: Generator cfg)
+      (generator: generator cfg)
       [
-        GenerateNameservers
+        generateNameserverText
       ]
   );
-in
-{
-  config.environment.etc =
-  lib.mapAttrs'
+
+  allResolvs = lib.mapAttrs'
     (name: value: {
       name = "netns/${name}/resolv.conf";
-      value = { text = GenerateAllText value; };
+      value = { text = generateResolv value; };
     })
     enabledNameservers
   ;
+in
+{
+  config.environment.etc = allResolvs;
 }

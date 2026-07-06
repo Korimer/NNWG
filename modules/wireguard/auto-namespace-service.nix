@@ -1,28 +1,25 @@
 { config, lib, ... }:
 let
-  enabledInterfaces = 
-    (lib.attrsets.filterAttrs
-      (_: cfg:
-        cfg.enable
-        && cfg.wireguard.autoCreateNamespace
-      )
-      config.netns
+  createFor = config.netNamespaces.wireguard.createFor;
+  wgInterfaces = config.networking.wireguard.interfaces;
+
+  getTargets = create-target: wg-target:
+    let behavior = createFor.${create-target}; in
+    map (name: wgInterfaces.${name}.${wg-target})(
+      if behavior == true then builtins.attrNames wgInterfaces
+      else if behavior == false then []
+      else behavior
     );
 
-  listNamespaces = wg-cfg: []
-  ++ (if (wg-cfg ? socketNamespace) && (wg-cfg.socketNamespace != "init")
-      then [ wg-cfg.socketNamespace ] else [])
-  ++ (if (wg-cfg ? interfaceNamespace) && (wg-cfg.interfaceNamespace != "init")
-       then [ wg-cfg.interfaceNamespace ] else [])
-  ;
+  targetInterfaces = getTargets "interfaces" "interfaceNamespace";
+  targetSockets = getTargets "sockets" "socketNamespace";
 
-  namespacesToCreate = lib.flatten (
-    map
-      (name: listNamespaces config.networking.wireguard.interfaces.${name})
-      (builtins.attrNames enabledInterfaces)
+  targetNamespaces = lib.unique (builtins.filter
+    (name: name != null && name != "init")
+    (targetInterfaces ++ targetSockets)
   );
 
-  MkNsDefault = name: lib.nameValuePair
+  mkNamespace = name: lib.nameValuePair
     name
     {
       enable = true;
@@ -31,13 +28,13 @@ let
 
   automaticNamespaces = builtins.listToAttrs 
     (map
-      (interface: MkNsDefault interface)
-      (lib.unique namespacesToCreate)
+      (interface: mkNamespace interface)
+      targetNamespaces
     );
 in
 {
-  config.netns = lib.recursiveUpdate 
+  config.netNamespaces.toCreate = lib.recursiveUpdate 
     automaticNamespaces
-    config.netns
+    config.netNamespaces.toCreate
   ;
 }

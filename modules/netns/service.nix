@@ -1,10 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  enabledNameservers = 
-    (lib.attrsets.filterAttrs
-      (_: cfg: cfg.enable)
-      config.netns
-    );
+  enabledNameservers = lib.filterAttrs
+    (_: cfg: cfg.enable)
+    config.netNamespaces.toCreate
+  ;
 
   MkServiceDefault = name: {
     description = "Create network namespace ${name}";
