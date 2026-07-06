@@ -18,8 +18,8 @@ let
 
   namespacesToCreate = lib.flatten (
     map
-      (wg-cfg: listNamespaces wg-cfg)
-      (builtins.attrValues enabledInterfaces)
+      (name: listNamespaces config.networking.wireguard.interfaces.${name})
+      (builtins.attrNames enabledInterfaces)
   );
 
   MkNsDefault = name: lib.nameValuePair
