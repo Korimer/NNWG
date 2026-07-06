@@ -19,12 +19,13 @@ let
     (targetInterfaces ++ targetSockets)
   );
 
+
   mkNamespace = name: lib.nameValuePair
     name
-    {
-      enable = true;
-      systemd.before = [ "wireguard-${name}.service" ];
-    };
+    (with lib; {
+      enable = mkDefault true;
+      systemd.before = mkDefault [ "wireguard-${name}.service" ];
+    });
 
   automaticNamespaces = builtins.listToAttrs 
     (map
@@ -33,8 +34,5 @@ let
     );
 in
 {
-  config.netNamespaces.toCreate = lib.recursiveUpdate 
-    automaticNamespaces
-    config.netNamespaces.toCreate
-  ;
+  config.netNamespaces.toCreate = automaticNamespaces;
 }
