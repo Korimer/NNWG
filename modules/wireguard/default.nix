@@ -1,6 +1,6 @@
 {
   imports = [
     ./forwarding.nix
-    ./service.nix
+    ./auto-namespace-service.nix
   ];
 }

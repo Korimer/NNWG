@@ -33,12 +33,12 @@
               };
             };
           };
-          default = { };
         };
 
         systemd = lib.mkOption {
-          type = lib.types.attrs;
-          default = { };
+          type = lib.types.submodule {
+            freeformType = lib.types.anything;
+          };
           description = "Extra systemd service attributes.";
         };
 
@@ -56,13 +56,12 @@
               };
 
               config = lib.mkOption {
-                type = lib.types.attrs;
+                type = lib.types.attrsOf lib.types.anything;
                 default = { };
                 description = "WireGuard interface config.";
               };
             };
           };
-          default = { };
           description = "Namespace WireGuard configuration.";
         };
 
