@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  createFor = config.netNamespaces.wireguard.createFor;
+  createFor = config.netNamespaces.createFor.wireguard;
   wgInterfaces = config.networking.wireguard.interfaces;
 
   getTargets = create-target: wg-target:
