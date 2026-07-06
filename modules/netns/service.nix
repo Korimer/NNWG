@@ -5,7 +5,7 @@ let
     config.netNamespaces.toCreate
   ;
 
-  MkServiceDefault = name: {
+  mkServiceDefault = name: {
     description = "Create network namespace ${name}";
 
     wantedBy = [ "multi-user.target" ];
@@ -25,15 +25,16 @@ let
     };
   };
 
-  MkNetnsService = name: overrides:
-    lib.recursiveUpdate (MkServiceDefault name) overrides;
+  mkNetnsService = name: user-config:
+    lib.recursiveUpdate (mkServiceDefault name) user-config;
+
+  allServices = lib.mapAttrs'
+    (name: cfg: lib.nameValuePair
+      "netns-${name}"
+      (mkNetnsService name cfg.systemd)
+    )
+    enabledNameservers;
 in
 {
-  config.systemd.services =
-    lib.mapAttrs'
-      (name: cfg: lib.nameValuePair
-        "netns-${name}"
-        (MkNetnsService name cfg.systemd)
-      )
-      enabledNameservers;
+  config.systemd.services = allServices;
 }

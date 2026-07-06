@@ -45,13 +45,14 @@ in
     toCreate = mkOption {
       default = {};
       type = types.attrsOf (types.submodule ({ ... }: {
-        enable = mkOption {
-          type = bool;
-          default = true;
-          description = "Whether or not to automatically create this namespace.";
-        };
-
         options = {
+
+          enable = mkOption {
+            type = bool;
+            default = true;
+            description = "Whether or not to automatically create this namespace.";
+          };
+
           resolv = {
             dns = mkOption {
               type = types.listOf types.str;
