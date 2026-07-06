@@ -8,7 +8,7 @@ let
   generateNameserverText = cfg: builtins.concatStringsSep "\n" (
     map
       (server: "nameserver ${server}")
-      cfg.dns
+      cfg.resolv.dns
   );
 
   generateResolv = cfg: builtins.concatStringsSep "\n" (
