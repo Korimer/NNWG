@@ -4,11 +4,11 @@ let
   shared = import ./_shared.nix { inherit config; inherit lib; };
 
   targetInterfaces = map
-    ( iface: iface.interfaceNamespace )
+    ( iface: shared.wgInterfaces.${iface}.interfaceNamespace )
     shared.wgToMapInterfaces;
 
   targetSockets = map
-    ( iface: iface.socketNamespace )
+    ( iface: shared.wgInterfaces.${iface}.socketNamespace )
     shared.wgToMapSockets;
 
   targetNamespaces = lib.unique (builtins.filter
