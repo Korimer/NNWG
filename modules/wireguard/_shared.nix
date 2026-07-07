@@ -3,7 +3,7 @@ let
   createFor = config.netNamespaces.createFor.wireguard;
   wgInterfaces = config.networking.wireguard.interfaces;
 
-  getTargets = create-target: wg-target:
+  getTargets = create-target:
     let behavior = createFor.${create-target}; in
       if behavior == true then wgInterfaces
       else if behavior == false then []
