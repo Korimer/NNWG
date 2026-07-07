@@ -1,9 +1,8 @@
 { config, pkgs, lib, ... }:
 let
-  enabledNameservers = lib.filterAttrs
-    (_: cfg: cfg.enable)
-    config.netNamespaces.toCreate
-  ;
+  shared = import ./_shared { inherit config; inherit lib; };
+
+  enabledNameservers = shared.enabledNameservers;
 
   mkServiceDefault = name: {
     description = "Create network namespace ${name}";

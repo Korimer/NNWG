@@ -1,24 +1,20 @@
 { config, lib, ... }:
 let
-  createFor = config.netNamespaces.createFor.wireguard;
-  wgInterfaces = config.networking.wireguard.interfaces;
+  
+  shared = import ./_shared { inherit config; inherit lib; };
 
-  getTargets = create-target: wg-target:
-    let behavior = createFor.${create-target}; in
-    map (name: wgInterfaces.${name}.${wg-target})(
-      if behavior == true then builtins.attrNames wgInterfaces
-      else if behavior == false then []
-      else behavior
-    );
+  targetInterfaces = map
+    ( iface: iface.interfaceNamespace )
+    shared.wgToMapInterface;
 
-  targetInterfaces = getTargets "interfaces" "interfaceNamespace";
-  targetSockets = getTargets "sockets" "socketNamespace";
+  targetSockets =
+    ( iface: iface.socketNamespace )
+    shared.wgToMapSockets;
 
   targetNamespaces = lib.unique (builtins.filter
     (name: name != null && name != "init")
     (targetInterfaces ++ targetSockets)
   );
-
 
   mkNamespace = name: lib.nameValuePair
     name
