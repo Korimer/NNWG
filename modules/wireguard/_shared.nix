@@ -14,6 +14,6 @@ let
   targetSockets = getTargets "sockets";
 in
 {
-  wgToMapInterface = targetInterfaces;
-  wgToMapSocket = targetSockets;
+  wgToMapInterfaces = targetInterfaces;
+  wgToMapSockets = targetSockets;
 }

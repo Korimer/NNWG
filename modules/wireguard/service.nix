@@ -9,10 +9,10 @@ let
 
   interfaceDeps = map
     ( iface: addTaskDep iface "interfaceNamespace" )
-    shared.wgToMapInterface;
+    shared.wgToMapInterfaces;
   socketDeps = map
     ( iface: addTaskDep iface "socketNamespace" )
-    shared.wgToMapSocket;
+    shared.wgToMapSockets;
 
   allIfaceDeps = builtins.listToAttrs ( interfaceDeps ++ socketDeps );
 in

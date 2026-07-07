@@ -5,7 +5,7 @@ let
 
   targetInterfaces = map
     ( iface: iface.interfaceNamespace )
-    shared.wgToMapInterface;
+    shared.wgToMapInterfaces;
 
   targetSockets =
     ( iface: iface.socketNamespace )
