@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  shared = import ./_shared { inherit config; inherit lib; };
+  shared = import ./_shared.nix { inherit config; inherit lib; };
 
   addTaskDep = netns: iface: lib.nameValuePair
     "wireguard-${iface}"

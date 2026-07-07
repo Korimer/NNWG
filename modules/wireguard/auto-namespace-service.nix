@@ -1,7 +1,7 @@
 { config, lib, ... }:
 let
   
-  shared = import ./_shared { inherit config; inherit lib; };
+  shared = import ./_shared.nix { inherit config; inherit lib; };
 
   targetInterfaces = map
     ( iface: iface.interfaceNamespace )

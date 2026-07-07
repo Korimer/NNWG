@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  shared = import ./_shared { inherit config; inherit lib; };
+  shared = import ./_shared.nix { inherit config; inherit lib; };
 
   enabledNameservers = shared.enabledNameservers;
 
