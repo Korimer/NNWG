@@ -9,12 +9,14 @@ let
       (server: "nameserver ${server}")
       cfg.resolv.dns
   );
+  generateExtraOptions = cfg: cfg.extraOptions;
 
   generateResolv = cfg: builtins.concatStringsSep "\n" (
     map
       (generator: generator cfg)
       [
         generateNameserverText
+        generateExtraOptions
       ]
   );
 
